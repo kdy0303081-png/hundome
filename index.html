@@ -32,7 +32,6 @@
       position: relative;
       width: 100vw;
       height: 100vh;
-      height: 100dvh;
       overflow: hidden;
       cursor: pointer;
       isolation: isolate;
@@ -69,18 +68,6 @@
 
     body.is-playing #intro-video {
       opacity: 1;
-    }
-
-    @media (max-width: 640px) {
-      #stage {
-        height: 100svh;
-        height: 100dvh;
-      }
-
-      #intro-video {
-        object-fit: contain;
-        object-position: center center;
-      }
     }
 
     #grain {
@@ -180,7 +167,7 @@
 <body>
   <div id="stage" aria-label="인트로 영상 시작">
     <div id="poster"></div>
-    <video id="intro-video" muted playsinline preload="auto" poster="f5d6cf5e-3780-4df8-9d4d-21dbe738b448.png" src="intro-video.mp4"></video>
+    <video id="intro-video" muted playsinline preload="auto" src="intro-video.mp4"></video>
   </div>
 
   <div id="grain"></div>
@@ -211,41 +198,28 @@
     }
 
     function updateProgress() {
-      if (!isPlaying) return;
-      if (!introVideo.duration) {
-        progressRAF = requestAnimationFrame(updateProgress);
-        return;
-      }
+      if (!isPlaying || !introVideo.duration) return;
       progressBar.style.width = ((introVideo.currentTime / introVideo.duration) * 100) + '%';
       progressRAF = requestAnimationFrame(updateProgress);
-    }
-
-    function showIntroVideo() {
-      document.body.classList.add('is-playing');
-      if (!progressRAF) progressRAF = requestAnimationFrame(updateProgress);
     }
 
     function playIntro(e) {
       if (isPlaying) return;
       isPlaying = true;
+      document.body.classList.add('is-playing');
       stage.style.cursor = 'default';
       spawnRipple(e.clientX, e.clientY);
       introVideo.currentTime = 0;
-      introVideo.muted = true;
-      introVideo.playsInline = true;
-      introVideo.setAttribute('playsinline', '');
-      introVideo.setAttribute('webkit-playsinline', '');
-      introVideo.play().then(showIntroVideo).catch(() => {
+      introVideo.play().catch(() => {
         isPlaying = false;
-        stage.style.cursor = 'pointer';
         document.body.classList.remove('is-playing');
       });
+      progressRAF = requestAnimationFrame(updateProgress);
     }
 
     function enterWebsite() {
       isPlaying = false;
       cancelAnimationFrame(progressRAF);
-      progressRAF = 0;
       progressBar.style.width = '100%';
       document.body.classList.add('is-leaving');
       window.setTimeout(() => {
@@ -254,7 +228,6 @@
     }
 
     stage.addEventListener('click', playIntro);
-    introVideo.addEventListener('playing', showIntroVideo);
     introVideo.addEventListener('ended', enterWebsite);
   </script>
 </body>

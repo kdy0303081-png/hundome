@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나 자신이 되는 법</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOP LOGO -->
+<div id="top-logo" aria-hidden="true">
+  <img src="top-logo.png" alt="">
+</div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo">나 자신이 되는 법</div>
+  <div class="nav-chapters">
+    <button class="nav-ch" data-slide="0">INTRO</button>
+    <button class="nav-ch" data-slide="1">여정</button>
+    <button class="nav-ch" data-slide="2">성찰</button>
+    <button class="nav-ch" data-slide="3">질문</button>
+    <button class="nav-ch" data-slide="4">워크북</button>
+    <button class="nav-ch" data-slide="5">원칙</button>
+    <button class="nav-ch" data-slide="6">게임</button>
+  </div>
+  <div class="nav-counter"><span id="cur-slide">01</span> / <span id="total-slides">07</span></div>
+</nav>
+
+<div id="reflection-fixed-bg" aria-hidden="true"></div>
+
+<!-- SLIDE WRAPPER -->
+<div id="slider">
+
+  <!-- ── SLIDE 0: HERO ── -->
+  <section class="slide" id="slide-0">
+    <canvas class="noise-canvas"></canvas>
+    <div class="scene-bg" aria-hidden="true"></div>
+    <div class="floating-fragments" aria-hidden="true">
+      <i></i><i></i><i></i><i></i>
+    </div>
+    <p class="scroll-word" aria-hidden="true">BEGIN THE JOURNEY</p>
+    <button class="hero-scroll-cue" type="button" data-goto="1" aria-label="Scroll to next section">
+      <span class="scroll-cue-text">SCROLL</span>
+      <span class="scroll-cue-mark" aria-hidden="true"></span>
+    </button>
+    <div class="hero-ripple" aria-hidden="true"></div>
+    <div class="slide-inner center">
+      <p class="slide-eyebrow">HOW TO BECOME MYSELF</p>
+      <h1 class="hero-title">나 자신이<br>되는 법</h1>
+      <p class="hero-sub">너 자신이 되어라 — 니체</p>
+      <button class="hero-cta" data-goto="1">여정 시작하기 ↓</button>
+    </div>
+    <div class="slide-corner tl">HOW TO<br>BECOME<br>MYSELF</div>
+    <div class="slide-corner tr">00 : 01</div>
+    <div class="slide-corner bl">THIS IS<br>THE WAY<br>BACK TO YOU</div>
+    <div class="slide-corner br">YOU ARE<br>ALREADY<br>ENOUGH</div>
+  </section>
+
+  <section class="slide flash-transition-slide" id="slide-flash">
+    <div class="flash-transition-stage" aria-hidden="true">
+      <img class="flash-image flash-image-a" src="between-section-flash-a.png" alt="">
+      <img class="flash-image flash-image-b" src="between-section-flash-b.png" alt="">
+      <img class="flash-image flash-image-final" src="between-section-flash-final.png" alt="">
+      <div class="flash-vignette"></div>
+      <div class="flash-caption"></div>
+      <div class="flash-fade"></div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 1: 우리는 모두 ── -->
+  <section class="slide" id="slide-1">
+    <canvas class="noise-canvas"></canvas>
+    <div class="scene-bg" aria-hidden="true"></div>
+    <div class="floating-fragments" aria-hidden="true">
+      <i></i><i></i><i></i><i></i>
+    </div>
+    <p class="scroll-word" aria-hidden="true">ROOM 01 / MEMORY</p>
+    <div class="slide-inner">
+      <p class="slide-eyebrow">WHY SELF-REFLECTION</p>
+      <h2 class="slide-title">우리는 모두<br>나 자신을 알고 싶어한다</h2>
+      <p class="slide-body">나를 아는 방법에 대한 콘텐츠가 조회수 750만회를 기록한 것은 우연이 아니다. 다양한 경험만으로는 부족하다. 그 경험을 제대로 성찰할 줄 알아야 한다.</p>
+      <div class="stat-row">
+        <div class="stat-item"><span class="stat-n">750<em>만</em></span><span class="stat-l">유튜브 자아성찰<br>누적 조회수</span></div>
+        <div class="stat-item"><span class="stat-n">10<em>일</em></span><span class="stat-l">나를 알아가는<br>핵심 질문</span></div>
+        <div class="stat-item"><span class="stat-n">3<em>단계</em></span><span class="stat-l">경험 성찰<br>심화 과정</span></div>
+        <div class="stat-item"><span class="stat-n">1<em>개</em></span><span class="stat-l">삶의 목적을<br>담은 문장</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 2: 4단계 여정 ── -->
+  <section class="slide" id="slide-2">
+    <canvas class="noise-canvas"></canvas>
+    <div class="scene-bg" aria-hidden="true"></div>
+    <div class="floating-fragments" aria-hidden="true">
+      <i></i><i></i><i></i><i></i>
+    </div>
+    <p class="scroll-word" aria-hidden="true">ROOM 02 / JOURNEY</p>
+    <div class="slide-inner">
+      <p class="slide-eyebrow">THE JOURNEY</p>
+      <h2 class="slide-title">나를 알아가는<br>4단계 로드맵</h2>
+      <div class="card-grid four">
+        <div class="dark-card">
+          <span class="card-num">01</span>
+          <h3>나를 가리는 것들<br>제거하기</h3>
+          <p>타인의 기대, 돈에 대한 두려움, 죽음을 멀리하는 태도, 실패에 대한 공포. 이 4가지가 진짜 나를 가린다.</p>
+        </div>
+        <div class="dark-card">
+          <span class="card-num">02</span>
+          <h3>경험 성찰하기</h3>
+          <p>긍정·부정 경험을 1차, 2차, 3차로 심화 성찰한다. 경험의 가치와 내 감정을 분리해서 바라본다.</p>
+        </div>
+        <div class="dark-card">
+          <span class="card-num">03</span>
+          <h3>질문 성찰하기</h3>
+          <p>내가 좋아하는 것과 나에게 의미있는 가치를 찾는 34가지 질문. 10일 동안 하루에 하나씩.</p>
+        </div>
+        <div class="dark-card">
+          <span class="card-num">04</span>
+          <h3>삶의 목적 정하기</h3>
+          <p>성찰한 것들을 하나의 문장으로 집약한다. 추상적이고 포괄적인 나만의 삶의 목적을 세운다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 3: 성찰 방법 ── -->
+  <section class="slide" id="slide-3">
+    <canvas class="noise-canvas"></canvas>
+    <div class="scene-bg" aria-hidden="true"></div>
+    <div class="floating-fragments" aria-hidden="true">
+      <i></i><i></i><i></i><i></i>
+    </div>
+    <p class="scroll-word" aria-hidden="true">ROOM 03 / REFLECTION</p>
+    <div class="slide-inner">
+      <p class="slide-eyebrow">HOW TO REFLECT</p>
+      <h2 class="slide-title">어떻게 성찰하는가</h2>
+      <div class="two-col">
+        <div class="reflect-flow">
+          <div class="flow-item">
+            <span class="flow-n">1</span>
+            <div><h4>1차 성찰 — 상황과 감정</h4><p>경험의 상황을 기록하고, 내가 어떤 감정을 느꼈는지 간단히 표현한다.</p></div>
+          </div>
+          <div class="flow-item">
+            <span class="flow-n">2</span>
+            <div><h4>2차 성찰 — 가치와 구체화</h4><p>상황이 주는 가치를 찾고, 감정을 더 구체적인 단어로 표현한다.</p></div>
+          </div>
+          <div class="flow-item">
+            <span class="flow-n">3</span>
+            <div><h4>3차 성찰 — 추상화와 확장</h4><p>가치를 추상화하여 본질을 뽑아낸다. 그 본질로 비슷한 경험을 연결하고 확장한다.</p></div>
+          </div>
+          <div class="flow-item arrow">
+            <span class="flow-n">→</span>
+            <div><h4>한 문장 정리</h4><p>나는 (좋아하는 것)이 주는 (의미있는 가치)에 (긍정감정)을 느끼며 살아가겠다.</p></div>
+          </div>
+        </div>
+        <div class="emotion-section">
+          <p class="em-label">긍정감정</p>
+          <div class="em-cloud positive">
+            <span>기쁨</span><span>만족</span><span>희열</span><span>즐거움</span><span>감동</span><span>번뜩임</span><span>성취감</span><span>몰입감</span><span>충만감</span><span>전율</span><span>짜릿함</span><span>열정</span><span>호기심</span><span>설렘</span>
+          </div>
+          <p class="em-label" style="margin-top:1.2rem;">부정감정</p>
+          <div class="em-cloud negative">
+            <span>분노</span><span>실망</span><span>좌절</span><span>무력감</span><span>허무함</span><span>우울함</span><span>소외감</span><span>답답함</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 4: 질문 ── -->
+  <section class="slide" id="slide-4">
+    <canvas class="noise-canvas"></canvas>
+    <div class="scene-bg" aria-hidden="true"></div>
+    <div class="floating-fragments" aria-hidden="true">
+      <i></i><i></i><i></i><i></i>
+    </div>
+    <p class="scroll-word" aria-hidden="true">ROOM 04 / QUESTIONS</p>
+    <div class="slide-inner">
+      <p class="slide-eyebrow">34 QUESTIONS</p>
+      <h2 class="slide-title">나를 알아가는<br>질문들</h2>
+      <div class="q-tabs">
+        <button class="q-tab active" data-q="likes">좋아하는 것</button>
+        <button class="q-tab" data-q="values">의미있는 가치</button>
+        <button class="q-tab" data-q="daily">10일 질문</button>
+      </div>
+      <div class="q-grid" id="q-likes">
+        <div class="q-item"><span class="q-n">Q.01</span><p>내가 좋아하는 음식, 영화, 음악, 가수, 캐릭터, 계절, 책은 무엇인가?</p></div>
+        <div class="q-item"><span class="q-n">Q.02</span><p>나는 무엇을 할 때 살아있음을 느끼는가?</p></div>
+        <div class="q-item"><span class="q-n">Q.03</span><p>나는 어디에 호기심이 생기는가?</p></div>
+        <div class="q-item"><span class="q-n">Q.04</span><p>당신의 취미는 무엇인가? 그걸 통해 무엇을 얻는가?</p></div>
+        <div class="q-item"><span class="q-n">Q.05</span><p>기억에 남는 여행이 있는가? 무엇이 좋았는가?</p></div>
+        <div class="q-item"><span class="q-n">Q.06</span><p>주변에서 "너는 이 주제로 얘기할 때마다 눈빛이 반짝여"라고 한 적 있는가?</p></div>
+        <div class="q-item"><span class="q-n">Q.07</span><p>내가 구독한 유튜브 채널들을 보자. 무엇을 추구하길래 구독했는가?</p></div>
+        <div class="q-item"><span class="q-n">Q.08</span><p>유튜브 홈 화면에서 어떤 컨텐츠를 클릭하고 싶은가? 왜?</p></div>
+      </div>
+      <div class="q-grid hidden" id="q-values">
+        <div class="q-item"><span class="q-n">Q.11</span><p>내가 멋있다고 느끼는 사람들은 누구인가? 공통점은?</p></div>
+        <div class="q-item"><span class="q-n">Q.12</span><p>내가 싫어하는 사람들은 어떤 특징을 가지고 있는가?</p></div>
+        <div class="q-item"><span class="q-n">Q.14</span><p>1,000명 앞에서 자유 주제로 스피치를 한다면 그 주제는?</p></div>
+        <div class="q-item"><span class="q-n">Q.17</span><p>10년 뒤 원하는 삶을 살고 있다. 그날 하루는 어떤가?</p></div>
+        <div class="q-item"><span class="q-n">Q.18</span><p>지금 죽는다면 무엇을 가장 후회할 것 같은가?</p></div>
+        <div class="q-item"><span class="q-n">Q.19</span><p>돈 걱정이 없다면 어떤 꿈을 꿀 것인가?</p></div>
+        <div class="q-item"><span class="q-n">Q.21</span><p>고통을 감수하고라도 해내고 싶은 삶의 목표는?</p></div>
+        <div class="q-item"><span class="q-n">Q.23</span><p>100살이 되었다. 후회 없이 온전한 삶을 살았다면 어떤 삶인가?</p></div>
+      </div>
+      <div class="q-grid hidden" id="q-daily">
+        <div class="q-item"><span class="q-n">DAY 1</span><p>내가 구독한 유튜브 채널들. 무엇을 추구하길래 구독했는가?</p></div>
+        <div class="q-item"><span class="q-n">DAY 2</span><p>유튜브 홈화면에 어떤 컨텐츠가 있는가? 여기서 알 수 있는 나의 취향은?</p></div>
+        <div class="q-item"><span class="q-n">DAY 3</span><p>아이가 있다면 무엇을 가장 중요하게 교육할 것인가?</p></div>
+        <div class="q-item"><span class="q-n">DAY 4</span><p>"그 주제로 얘기할 때 눈빛이 반짝여"라고 한 적 있는가?</p></div>
+        <div class="q-item"><span class="q-n">DAY 5</span><p>내가 멋있다고 느끼는 사람들의 공통점과 내가 추구하는 것은?</p></div>
+        <div class="q-item"><span class="q-n">DAY 7</span><p>10년 뒤 원하는 삶을 살고 있다. 그날 하루는 어떤가?</p></div>
+        <div class="q-item"><span class="q-n">DAY 9</span><p>돈 걱정이 없을 정도로 부자라면 어떤 꿈을 꿀 것인가?</p></div>
+        <div class="q-item"><span class="q-n">DAY 10</span><p>주변의 기대와 시선이 사라진다면 어떤 꿈을 꿀 것인가?</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 5: 워크북 ── -->
+  <section class="slide" id="slide-5">
+    <canvas class="noise-canvas"></canvas>
+    <div class="scene-bg" aria-hidden="true"></div>
+    <div class="floating-fragments" aria-hidden="true">
+      <i></i><i></i><i></i><i></i>
+    </div>
+    <p class="scroll-word" aria-hidden="true">ROOM 05 / WORKBOOK</p>
+    <div class="slide-inner">
+      <p class="slide-eyebrow">6 STEPS</p>
+      <h2 class="slide-title">성찰의 6단계 워크북</h2>
+      <div class="card-grid six">
+        <div class="dark-card"><span class="card-num">1</span><h3>경험 떠올리기</h3><p>설레서 잠이 안왔던 경험, 뿌듯했던 경험, 몰입했던 경험 하나를 선택한다.</p></div>
+        <div class="dark-card"><span class="card-num">2</span><h3>1차 성찰</h3><p>경험의 상황을 적고, 내가 어떤 감정을 느꼈는지 간단히 표현한다.</p></div>
+        <div class="dark-card"><span class="card-num">3</span><h3>2차 성찰</h3><p>상황이 주는 가치를 찾고, 감정을 구체화한다. '왜?'를 거듭 질문하며 파고든다.</p></div>
+        <div class="dark-card"><span class="card-num">4</span><h3>3차 성찰</h3><p>가치를 추상화한다. 사랑, 창조, 통찰, 성장 같은 추상적 가치로 본질을 추출한다.</p></div>
+        <div class="dark-card"><span class="card-num">5</span><h3>경험 확장</h3><p>비슷한 가치를 줬던 경험과 연결하고, 아직 해보지 않은 경험을 계획해본다.</p></div>
+        <div class="dark-card"><span class="card-num">6</span><h3>한 문장 정리</h3><p>"나는 (좋아하는 것)이 주는 (의미있는 가치)에 (긍정감정)을 느끼며 살아가겠다."</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 6: 원칙 ── -->
+  <section class="slide" id="slide-6">
+    <canvas class="noise-canvas"></canvas>
+    <div class="scene-bg" aria-hidden="true"></div>
+    <div class="floating-fragments" aria-hidden="true">
+      <i></i><i></i><i></i><i></i>
+    </div>
+    <p class="scroll-word" aria-hidden="true">ROOM 06 / PRINCIPLES</p>
+    <div class="slide-inner">
+      <p class="slide-eyebrow">6 PRINCIPLES</p>
+      <h2 class="slide-title">성찰을 위한<br>6가지 원칙</h2>
+      <div class="card-grid six">
+        <div class="dark-card"><span class="card-num">1</span><h3>쉽지 않음을 인정하자</h3><p>처음부터 잘 되는 건 없다. 자아성찰도 연습이 필요하다.</p></div>
+        <div class="dark-card"><span class="card-num">2</span><h3>온전한 주체가 되자</h3><p>자아성찰은 오롯이 나의 몫이다. 다른 사람이 해줄 수 없다.</p></div>
+        <div class="dark-card"><span class="card-num">3</span><h3>편견에서 벗어나자</h3><p>'나는 MBTI 무슨 형이라서...'라는 선입견을 버리자.</p></div>
+        <div class="dark-card"><span class="card-num">4</span><h3>한계 짓지 말자</h3><p>한계를 지으면 진정으로 원하는 걸 알 수 없다.</p></div>
+        <div class="dark-card"><span class="card-num">5</span><h3>돈과 시선에서 자유롭자</h3><p>타인의 기대, 시선, 돈에 대한 걱정을 잠시 내려놓자.</p></div>
+        <div class="dark-card"><span class="card-num">6</span><h3>실천으로 이어가자</h3><p>경험해보기 전까지 진짜 원하는 것을 모른다. 반드시 실천해보자.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 7: 경험 성찰 게임 ── -->
+  <section class="slide scroll-video-slide" id="slide-video">
+    <canvas class="noise-canvas"></canvas>
+    <div class="scroll-video-stage">
+      <video id="scroll-sync-video" class="scroll-sync-video" src="reflection-scroll-video.mp4" muted playsinline preload="auto"></video>
+      <div class="scroll-video-shade" aria-hidden="true"></div>
+      <div class="video-grow-text" aria-hidden="true">이제</div>
+      <div class="video-word video-word-you" aria-hidden="true">당신의</div>
+      <div class="video-word video-word-turn" aria-hidden="true">차례</div>
+      <div class="video-fade"></div>
+    </div>
+  </section>
+
+  <section class="slide" id="slide-7">
+    <canvas class="noise-canvas"></canvas>
+    <div class="scene-bg" aria-hidden="true"></div>
+    <div class="floating-fragments" aria-hidden="true">
+      <i></i><i></i><i></i><i></i>
+    </div>
+    <p class="scroll-word game-word" aria-hidden="true">이제 당신의 차례입니다</p>
+    <div class="slide-inner center">
+      <p class="slide-eyebrow">REFLECTION GAME</p>
+      <h2 class="slide-title" style="margin-bottom:2rem;">경험 성찰 게임</h2>
+      <!-- VN GAME -->
+      <div id="vn-wrap">
+        <div id="vn-root">
+          <div id="vn-scene-bg"></div>
+          <canvas id="vn-particle-canvas"></canvas>
+          <div id="vn-top-bar">
+            <span id="vn-chapter">경험 성찰</span>
+            <div id="vn-progress"></div>
+          </div>
+          <div id="vn-scene-art"></div>
+        </div>
+        <div id="vn-dialogue">
+          <div id="vn-speaker"></div>
+          <div id="vn-textbox">
+            <span id="vn-text"></span>
+            <span id="vn-cursor"></span>
+          </div>
+          <button id="vn-continue">계속 ▾</button>
+          <div id="vn-choices"></div>
+          <div id="vn-input-area">
+            <textarea id="vn-input" placeholder="자유롭게 적어보세요..."></textarea>
+            <button id="vn-submit">확인</button>
+          </div>
+          <div id="vn-result"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /slider -->
+
+<!-- SLIDE CONTROLS -->
+<div id="slide-nav">
+  <button id="btn-prev">&#8593;</button>
+  <div id="slide-dots"></div>
+  <button id="btn-next">&#8595;</button>
+</div>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<script src="script.js"></script>
+</body>
+</html>

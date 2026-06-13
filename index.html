@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Experience</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&display=swap');
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --black: #050713;
+      --white: #fffaf2;
+      --accent: #c8d7ff;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    #stage {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      cursor: pointer;
+      isolation: isolate;
+    }
+
+    #poster,
+    #intro-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    #poster {
+      z-index: 1;
+      background: url('f5d6cf5e-3780-4df8-9d4d-21dbe738b448.png') center center / cover no-repeat;
+      transform: scale(1.01);
+      transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body.is-playing #poster {
+      opacity: 0;
+      transform: scale(1.045);
+      pointer-events: none;
+    }
+
+    #intro-video {
+      z-index: 2;
+      opacity: 0;
+      background: var(--black);
+      transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body.is-playing #intro-video {
+      opacity: 1;
+    }
+
+    #grain {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
+
+    #vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 6;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 52%, rgba(5,7,19,0.65) 100%);
+    }
+
+    .ripple {
+      position: fixed;
+      z-index: 30;
+      width: 0;
+      height: 0;
+      border: 1px solid rgba(255,250,242,0.72);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      animation: ripple-expand 0.7s ease-out forwards;
+    }
+
+    @keyframes ripple-expand {
+      to { width: 220px; height: 220px; opacity: 0; }
+    }
+
+    #focus-text {
+      position: fixed;
+      bottom: 36px;
+      left: 50%;
+      z-index: 20;
+      transform: translateX(-50%);
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      color: var(--white);
+      opacity: 0.72;
+      pointer-events: none;
+      white-space: nowrap;
+      text-shadow: 0 0 18px rgba(255,250,242,0.24);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    body.is-playing #focus-text {
+      opacity: 0;
+      transform: translate(-50%, 8px);
+    }
+
+    #progress-wrap {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      z-index: 20;
+      width: 100%;
+      height: 2px;
+      background: rgba(255,250,242,0.12);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    body.is-playing #progress-wrap {
+      opacity: 1;
+    }
+
+    #progress-bar {
+      width: 0%;
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.2s linear;
+    }
+
+    #fade-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      pointer-events: none;
+      background: var(--black);
+      opacity: 0;
+      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body.is-leaving #fade-overlay {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="stage" aria-label="인트로 영상 시작">
+    <div id="poster"></div>
+    <video id="intro-video" muted playsinline preload="auto" src="intro-video.mp4"></video>
+  </div>
+
+  <div id="grain"></div>
+  <div id="vignette"></div>
+  <div id="focus-text">나에게 집중하기</div>
+
+  <div id="progress-wrap">
+    <div id="progress-bar"></div>
+  </div>
+
+  <div id="fade-overlay"></div>
+
+  <script>
+    const stage = document.getElementById('stage');
+    const introVideo = document.getElementById('intro-video');
+    const progressBar = document.getElementById('progress-bar');
+
+    let isPlaying = false;
+    let progressRAF = 0;
+
+    function spawnRipple(x, y) {
+      const ripple = document.createElement('div');
+      ripple.className = 'ripple';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      document.body.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+    }
+
+    function updateProgress() {
+      if (!isPlaying || !introVideo.duration) return;
+      progressBar.style.width = ((introVideo.currentTime / introVideo.duration) * 100) + '%';
+      progressRAF = requestAnimationFrame(updateProgress);
+    }
+
+    function playIntro(e) {
+      if (isPlaying) return;
+      isPlaying = true;
+      document.body.classList.add('is-playing');
+      stage.style.cursor = 'default';
+      spawnRipple(e.clientX, e.clientY);
+      introVideo.currentTime = 0;
+      introVideo.play().catch(() => {
+        isPlaying = false;
+        document.body.classList.remove('is-playing');
+      });
+      progressRAF = requestAnimationFrame(updateProgress);
+    }
+
+    function enterWebsite() {
+      isPlaying = false;
+      cancelAnimationFrame(progressRAF);
+      progressBar.style.width = '100%';
+      document.body.classList.add('is-leaving');
+      window.setTimeout(() => {
+        window.location.href = 'main.html';
+      }, 1200);
+    }
+
+    stage.addEventListener('click', playIntro);
+    introVideo.addEventListener('ended', enterWebsite);
+  </script>
+</body>
+</html>

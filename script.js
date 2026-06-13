@@ -66,7 +66,7 @@ function goTo(n) {
   if (videoLocked && n !== videoSlideIndex) return;
   if (flashLocked && n !== flashSlideIndex) return;
   currentSlide = n;
-  slides[n].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  slider.scrollTo({ top: slides[n].offsetTop, behavior: 'smooth' });
   updateNav();
 }
 
@@ -203,11 +203,13 @@ function updateVideoTextCue() {
   const grow = clamp((time - 1) / 3, 0, 1);
   const appear = time >= 1 ? clamp(0.25 + (time - 1) / 0.45, 0, 1) : 0;
   const vanish = clamp((time - 3.85) / 0.15, 0, 1);
+  const firstWordDrift = compactVideo ? 6 : 16;
+  const firstWordVanishDrift = compactVideo ? 3 : 6;
 
   if (videoGrowText) {
     scrollVideoSlide.style.setProperty('--video-text-opacity', (appear * (1 - vanish)).toFixed(3));
     scrollVideoSlide.style.setProperty('--video-text-scale', (0.24 + grow * 0.44 + vanish * 0.14).toFixed(3));
-    scrollVideoSlide.style.setProperty('--video-text-x', `${(-grow * 16 - vanish * 6).toFixed(2)}vw`);
+    scrollVideoSlide.style.setProperty('--video-text-x', `${(-grow * firstWordDrift - vanish * firstWordVanishDrift).toFixed(2)}vw`);
     scrollVideoSlide.style.setProperty('--video-text-blur', `${(14 - appear * 14 + vanish * 18).toFixed(2)}px`);
     scrollVideoSlide.style.setProperty('--video-text-spacing', `${(0.18 - grow * 0.02 + vanish * 0.08).toFixed(3)}em`);
   }
@@ -215,12 +217,15 @@ function updateVideoTextCue() {
   const youGrow = clamp((time - 3) / 3, 0, 1);
   const youAppear = time >= 3 ? clamp(0.25 + (time - 3) / 0.45, 0, 1) : 0;
   const youVanish = clamp((time - 5.85) / 0.15, 0, 1);
+  const sideDrift = compactVideo ? 5 : 22;
+  const upDrift = compactVideo ? 5 : 22;
+  const downDrift = compactVideo ? 6 : 24;
   setVideoWordCue(
     videoWordYou,
     youAppear * (1 - youVanish),
     0.22 + youGrow * 0.78 + youVanish * 0.18,
-    youGrow * 22 + youVanish * 6,
-    -youGrow * 22 - youVanish * 6,
+    youGrow * sideDrift + youVanish * 4,
+    -youGrow * upDrift - youVanish * 4,
     14 - youAppear * 14 + youVanish * 18,
     0.18 - youGrow * 0.04 + youVanish * 0.08
   );
@@ -233,7 +238,7 @@ function updateVideoTextCue() {
     turnAppear * (1 - turnVanish),
     0.22 + turnGrow * 0.9 + turnVanish * 0.18,
     0,
-    turnGrow * 24 + turnVanish * 6,
+    turnGrow * downDrift + turnVanish * 4,
     14 - turnAppear * 14 + turnVanish * 18,
     0.18 - turnGrow * 0.04 + turnVanish * 0.08
   );

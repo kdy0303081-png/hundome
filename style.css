@@ -1035,7 +1035,9 @@ body.reflection-bg-visible #reflection-fixed-bg {
 }
 
 .scroll-video-slide {
+  --video-fade-opacity: 0;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 0;
   display: block;
   background: #050509;
@@ -1055,8 +1057,12 @@ body.reflection-bg-visible #reflection-fixed-bg {
   top: 0;
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
-  background: #050509;
+  background:
+    linear-gradient(rgba(5,5,9,0.18), rgba(5,5,9,0.18)),
+    url('reflection-fixed-bg.png') center center / cover no-repeat,
+    #050509;
   isolation: isolate;
 }
 
@@ -1064,12 +1070,17 @@ body.reflection-bg-visible #reflection-fixed-bg {
   position: absolute;
   inset: 0;
   z-index: 1;
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
+  background:
+    url('reflection-fixed-bg.png') center center / cover no-repeat,
+    #050509;
   filter: brightness(0.82) contrast(1.08) saturate(1.06) blur(var(--scroll-video-blur, 0px));
   transform: scale(var(--scroll-video-scale, 1.015));
+  transform-origin: center center;
   will-change: transform, filter;
 }
 
@@ -1600,6 +1611,7 @@ body.reflection-bg-visible #reflection-fixed-bg {
 @media (max-width: 900px) {
   .scroll-video-slide {
     min-height: 100svh;
+    min-height: 100dvh;
     height: auto;
     padding: 0;
     overflow: hidden;
@@ -1607,6 +1619,16 @@ body.reflection-bg-visible #reflection-fixed-bg {
 
   .scroll-video-stage {
     height: 100svh;
+    height: 100dvh;
+  }
+
+  .scroll-sync-video {
+    object-fit: contain;
+    object-position: center center;
+    background:
+      linear-gradient(rgba(5,5,9,0.24), rgba(5,5,9,0.24)),
+      url('reflection-fixed-bg.png') center center / cover no-repeat,
+      #050509;
   }
 
   .video-grow-text {

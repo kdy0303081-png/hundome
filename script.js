@@ -195,8 +195,10 @@ function updateVideoTextCue() {
   const duration = Number.isFinite(scrollSyncVideo.duration) && scrollSyncVideo.duration > 0 ? scrollSyncVideo.duration : 10;
   const videoProgress = clamp(time / duration, 0, 1);
   const videoBlur = 0.35 + videoProgress * 12;
+  const compactVideo = window.matchMedia('(max-width: 900px)').matches;
+  const videoScale = compactVideo ? 1 + videoProgress * 0.012 : 1.018 + videoProgress * 0.035;
   scrollVideoSlide.style.setProperty('--scroll-video-blur', `${videoBlur.toFixed(2)}px`);
-  scrollVideoSlide.style.setProperty('--scroll-video-scale', (1.018 + videoProgress * 0.035).toFixed(3));
+  scrollVideoSlide.style.setProperty('--scroll-video-scale', videoScale.toFixed(3));
 
   const grow = clamp((time - 1) / 3, 0, 1);
   const appear = time >= 1 ? clamp(0.25 + (time - 1) / 0.45, 0, 1) : 0;
@@ -406,7 +408,7 @@ const obs = new IntersectionObserver((entries) => {
       e.target.classList.add('is-visible');
       const idx = Array.from(slides).indexOf(e.target);
       if (idx !== -1) { currentSlide = idx; updateNav(); }
-      if (e.target === scrollVideoSlide && e.intersectionRatio >= 0.55) {
+      if (e.target === scrollVideoSlide && e.intersectionRatio >= 0.35) {
         lockVideoSection();
       }
       if (e.target === flashSlide && e.intersectionRatio >= 0.55) {
@@ -561,14 +563,28 @@ slider.addEventListener('touchstart', handleVideoTouchStart, { passive: true });
 slider.addEventListener('touchmove', holdVideoTouchMove, { passive: false });
 slider.addEventListener('touchmove', holdFlashTouchMove, { passive: false });
 window.addEventListener('resize', requestScrollTick);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', requestScrollTick);
+}
 
 if (scrollSyncVideo) {
+  scrollSyncVideo.muted = true;
+  scrollSyncVideo.playsInline = true;
+  scrollSyncVideo.setAttribute('playsinline', '');
+  scrollSyncVideo.setAttribute('webkit-playsinline', '');
+  scrollSyncVideo.preload = 'auto';
   scrollSyncVideo.pause();
   scrollSyncVideo.addEventListener('loadedmetadata', () => {
+    if (!videoLocked) {
+      try { scrollSyncVideo.currentTime = 0.01; } catch (error) {}
+    }
     updateVideoTextCue();
     requestScrollTick();
   });
+  scrollSyncVideo.addEventListener('loadeddata', updateVideoTextCue);
+  scrollSyncVideo.addEventListener('canplay', updateVideoTextCue);
   scrollSyncVideo.addEventListener('seeked', updateVideoTextCue);
+  try { scrollSyncVideo.load(); } catch (error) {}
 }
 
 document.getElementById('btn-prev').addEventListener('click', () => goTo(currentSlide - 1));

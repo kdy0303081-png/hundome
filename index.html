@@ -1,234 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Experience</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&display=swap');
-
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --black: #050713;
-      --white: #fffaf2;
-      --accent: #c8d7ff;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: var(--black);
-      color: var(--white);
-      font-family: 'Noto Sans KR', sans-serif;
-    }
-
-    #stage {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      cursor: pointer;
-      isolation: isolate;
-    }
-
-    #poster,
-    #intro-video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    #poster {
-      z-index: 1;
-      background: url('f5d6cf5e-3780-4df8-9d4d-21dbe738b448.png') center center / cover no-repeat;
-      transform: scale(1.01);
-      transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    body.is-playing #poster {
-      opacity: 0;
-      transform: scale(1.045);
-      pointer-events: none;
-    }
-
-    #intro-video {
-      z-index: 2;
-      opacity: 0;
-      background: var(--black);
-      transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    body.is-playing #intro-video {
-      opacity: 1;
-    }
-
-    #grain {
-      position: fixed;
-      inset: 0;
-      z-index: 5;
-      pointer-events: none;
-      opacity: 0.035;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-size: 180px 180px;
-    }
-
-    #vignette {
-      position: fixed;
-      inset: 0;
-      z-index: 6;
-      pointer-events: none;
-      background: radial-gradient(ellipse at center, transparent 52%, rgba(5,7,19,0.65) 100%);
-    }
-
-    .ripple {
-      position: fixed;
-      z-index: 30;
-      width: 0;
-      height: 0;
-      border: 1px solid rgba(255,250,242,0.72);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      animation: ripple-expand 0.7s ease-out forwards;
-    }
-
-    @keyframes ripple-expand {
-      to { width: 220px; height: 220px; opacity: 0; }
-    }
-
-    #focus-text {
-      position: fixed;
-      bottom: 36px;
-      left: 50%;
-      z-index: 20;
-      transform: translateX(-50%);
-      font-size: 12px;
-      font-weight: 300;
-      letter-spacing: 0.28em;
-      color: var(--white);
-      opacity: 0.72;
-      pointer-events: none;
-      white-space: nowrap;
-      text-shadow: 0 0 18px rgba(255,250,242,0.24);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    body.is-playing #focus-text {
-      opacity: 0;
-      transform: translate(-50%, 8px);
-    }
-
-    #progress-wrap {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      z-index: 20;
-      width: 100%;
-      height: 2px;
-      background: rgba(255,250,242,0.12);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    body.is-playing #progress-wrap {
-      opacity: 1;
-    }
-
-    #progress-bar {
-      width: 0%;
-      height: 100%;
-      background: var(--accent);
-      transition: width 0.2s linear;
-    }
-
-    #fade-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      pointer-events: none;
-      background: var(--black);
-      opacity: 0;
-      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    body.is-leaving #fade-overlay {
-      opacity: 1;
-    }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090a0c">
+<title>말의 기술 — 내가 하는 말이 나를 만든다</title>
+<meta name="description" content="내가 하는 말이, 나를 결정한다. 수많은 문자가 모여 만드는 천천히 회전하는 입체 초상.">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=4">
+<link rel="stylesheet" href="./site-intro.css?v=5">
+<script>try{if(sessionStorage.getItem('portrait-ascii-upload-intro-v2')!=='seen'&&!new URLSearchParams(location.search).has('home'))document.documentElement.classList.add('intro-active');}catch{if(!new URLSearchParams(location.search).has('home'))document.documentElement.classList.add('intro-active');}</script>
 </head>
 <body>
-  <div id="stage" aria-label="인트로 영상 시작">
-    <div id="poster"></div>
-    <video id="intro-video" muted playsinline preload="auto" src="intro-video.mp4"></video>
-  </div>
-
-  <div id="grain"></div>
-  <div id="vignette"></div>
-  <div id="focus-text">나에게 집중하기</div>
-
-  <div id="progress-wrap">
-    <div id="progress-bar"></div>
-  </div>
-
-  <div id="fade-overlay"></div>
-
-  <script>
-    const stage = document.getElementById('stage');
-    const introVideo = document.getElementById('intro-video');
-    const progressBar = document.getElementById('progress-bar');
-
-    let isPlaying = false;
-    let progressRAF = 0;
-
-    function spawnRipple(x, y) {
-      const ripple = document.createElement('div');
-      ripple.className = 'ripple';
-      ripple.style.left = x + 'px';
-      ripple.style.top = y + 'px';
-      document.body.appendChild(ripple);
-      ripple.addEventListener('animationend', () => ripple.remove());
-    }
-
-    function updateProgress() {
-      if (!isPlaying || !introVideo.duration) return;
-      progressBar.style.width = ((introVideo.currentTime / introVideo.duration) * 100) + '%';
-      progressRAF = requestAnimationFrame(updateProgress);
-    }
-
-    function playIntro(e) {
-      if (isPlaying) return;
-      isPlaying = true;
-      document.body.classList.add('is-playing');
-      stage.style.cursor = 'default';
-      spawnRipple(e.clientX, e.clientY);
-      introVideo.currentTime = 0;
-      introVideo.play().catch(() => {
-        isPlaying = false;
-        document.body.classList.remove('is-playing');
-      });
-      progressRAF = requestAnimationFrame(updateProgress);
-    }
-
-    function enterWebsite() {
-      isPlaying = false;
-      cancelAnimationFrame(progressRAF);
-      progressBar.style.width = '100%';
-      document.body.classList.add('is-leaving');
-      window.setTimeout(() => {
-        window.location.href = 'main.html';
-      }, 1200);
-    }
-
-    stage.addEventListener('click', playIntro);
-    introVideo.addEventListener('ended', enterWebsite);
-  </script>
-</body>
-</html>
+<section id="site-intro" class="site-intro" aria-label="말의 기술 인트로 영상" role="dialog" aria-modal="true" hidden>
+<iframe id="site-intro-frame" title="말하기의 기술 ASCII 인트로" allow="autoplay" referrerpolicy="same-origin"></iframe>
+<div class="site-intro-progress" aria-hidden="true"><span id="site-intro-progress"></span></div>
+</section>
+<header><a class="brand" href="./index.html?home=1" aria-label="말의 기술 홈"><span class="brand-symbol">[ : ]</span><span>말의 기술</span></a><span class="edition">PORTRAIT OF WORDS <span class="divider">/</span> 001</span><span class="header-note">보고, 듣고, 말하는 나</span></header>
+<main>
+<canvas id="portrait" aria-label="공감, 마음, 이해 같은 한글 단어들로 이루어진 사람의 입체 초상. 눈은 문자, 귀는 대화, 입은 스피치 훈련으로 연결됩니다. 드래그나 방향키로 각도를 바꿀 수 있습니다." tabindex="0"></canvas>
+<div id="hotspots" class="hotspots" role="group" aria-label="얼굴 부위로 훈련 선택"></div>
+<div class="intro"><p class="eyebrow"><span></span> WORDS BECOME ME</p><h1>내가 하는 말이<br>나를 <span>만든다.</span></h1><p class="message">내가 하는 말이,<br>나를 결정한다.</p><nav class="sense-menu" aria-label="훈련 선택">
+<a href="./trainer.html?v=20261013-clean#dialog"><span>01</span><strong>귀</strong><span class="sense-name">대화</span><small>상대의 마음을 듣다</small></a>
+<a href="./trainer.html?v=20261013-clean#message"><span>02</span><strong>눈</strong><span class="sense-name">문자</span><small>글로 마음을 전하다</small></a>
+<a href="./trainer.html?v=20261013-clean#speech"><span>03</span><strong>입</strong><span class="sense-name">스피치</span><small>나의 생각을 말하다</small></a>
+</nav></div>
+<div class="portrait-label"><span>원하는 요소를 클릭해보세요</span></div>
+<div class="view-info"><span id="viewLabel">FRONT</span><span id="angle">000°</span></div>
+<div class="loading" id="loading" role="status">말들이 모이고 있습니다<span>···</span></div>
+<div class="gesture">눈 · 귀 · 입을 눌러 시작 <span>·</span> 드래그하여 회전</div>
+</main>
+<div class="bottom-line"><a href="./credits.txt" target="_blank" rel="noopener">3D · LEE PERRY-SMITH / CC BY 3.0</a><span>말은 흩어져도, 나는 다시 만들어진다.</span></div>
+<script src="./head-data.js?v=1"></script>
+<script src="./site-intro.js?v=5"></script>
+<script src="./app.js?v=12"></script>
+</body></html>

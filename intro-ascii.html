@@ -65,7 +65,7 @@ canvas{cursor:default}
 const v=document.getElementById('v');
 const hv=document.getElementById('hv');
 const embedded=window.parent!==window;
-let started=false,finished=false,renderRequest=0,resumeOnVisible=false;
+let started=false,finished=false,renderRequest=0,resumeOnVisible=false,ending=false;
 function notify(type,extra={}){if(embedded)window.parent.postMessage({channel:'portrait-ascii-intro',type,...extra},location.origin==='null'?'*':location.origin);}
 function finish(failed=false){
  if(finished)return;finished=true;v.pause();hv.pause();cancelAnimationFrame(renderRequest);
@@ -112,7 +112,7 @@ function draw(){
     ctx.fillText(han?TXT[(y*cols+x)%TXT.length]:set[k],ox+x*cw+cw/2,oy+y*ch+ch/2);
   }
   const T0=19.9,TT=v.currentTime;
-  if(TT>=19.5){const want=TT-19.5;if(v.paused){if(!hv.paused)hv.pause()}else if(hv.paused)hv.play().catch(()=>{});if(Math.abs(hv.currentTime-want)>0.15&&!hv.seeking)hv.currentTime=Math.min(want,hv.duration||want)}else if(hv.currentTime>0||!hv.paused){hv.pause();hv.currentTime=0}
+  if(!ending&&TT>=19.5){const want=TT-19.5;if(v.paused){if(!hv.paused)hv.pause()}else if(hv.paused)hv.play().catch(()=>{});if(Math.abs(hv.currentTime-want)>0.15&&!hv.seeking)hv.currentTime=Math.min(want,hv.duration||want)}else if(!ending&&(hv.currentTime>0||!hv.paused)){hv.pause();hv.currentTime=0}
   if(TT>=T0&&v.videoWidth){const a=Math.min(1,(TT-T0)/0.3),W0=cols*cw,H0=rows*ch,dx=ox,dy=oy,dW=W0,dH=H0;
     ctx.save();ctx.globalAlpha=a;ctx.fillStyle='#050505';ctx.fillRect(dx,dy,dW,dH);
     const sr=(hv.readyState>=2&&hv.videoWidth)?hv:v;ctx.drawImage(sr,0,0,sr.videoWidth,sr.videoHeight,dx,dy,dW,dH);ctx.restore()}
@@ -150,7 +150,12 @@ addEventListener('keydown',e=>{
  }
 });
 v.addEventListener('loadedmetadata',fit);
-v.addEventListener('ended',()=>finish());
+v.addEventListener('ended',()=>{
+ ending=true;
+ if(hv.ended){setTimeout(()=>finish(),1800);return;}
+ hv.play().catch(()=>finish());
+});
+hv.addEventListener('ended',()=>{if(ending)setTimeout(()=>finish(),1800);});
 v.addEventListener('error',()=>finish(true));
 v.addEventListener('timeupdate',()=>notify('progress',{progress:Number.isFinite(v.duration)&&v.duration>0?v.currentTime/v.duration:0}));
 addEventListener('pagehide',()=>{finished=true;v.pause();hv.pause();cancelAnimationFrame(renderRequest);});

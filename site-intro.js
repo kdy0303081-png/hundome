@@ -43,6 +43,6 @@
   overlay.hidden=false;main.inert=true;
   window.addEventListener('message',onMessage);
   frame.addEventListener('error',()=>finish(false));
-  frame.src='./intro-ascii.html?v=uploaded-20261026-v2';
+  frame.src='./intro-ascii.html?v=uploaded-20261026-v3';
   loadTimeout=setTimeout(()=>{if(!ready)finish(false);},20000);
 })();
